@@ -1,0 +1,237 @@
+/* =========================================================================
+   Personal Dashboard Styles
+   ========================================================================= */
+
+.personal-dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 8px 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-app, #ffffff);
+}
+
+/* Header Section */
+.dashboard-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 20px;
+}
+
+.dashboard-title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+  margin: 0 0 6px 0;
+}
+
+.dashboard-subtitle {
+  font-size: 16px;
+  color: #64748b;
+  margin: 0;
+}
+
+.operator-badge {
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.operator-email {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Quick Shortcuts */
+.quick-shortcuts-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.shortcuts-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin: 0 0 16px 0;
+}
+
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.shortcut-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  background-color: #ffffff;
+  border: 1px solid #bfdbfe; /* Light blue border */
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.02);
+}
+
+.shortcut-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.08);
+  border-color: #2563eb;
+  background-color: #f8fafc;
+}
+
+.shortcut-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  flex-shrink: 0;
+}
+
+.shortcut-icon-wrapper.text-yellow {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.shortcut-details h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 3px 0;
+}
+
+.shortcut-details p {
+  font-size: 11px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Metrics Section */
+.metrics-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+  min-height: 140px;
+}
+
+.metric-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.metric-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.metric-value {
+  font-size: 64px;
+  font-weight: 800;
+  color: #2563eb;
+  line-height: 1;
+  margin-top: 16px;
+  letter-spacing: -0.04em;
+}
+
+/* Border Accent Variations */
+.border-accent-blue {
+  border-top: 4px solid #2563eb;
+}
+
+.border-accent-orange {
+  border-top: 4px solid #f59e0b;
+}
+
+.border-accent-green {
+  border-top: 4px solid #10b981;
+}
+
+.border-accent-red {
+  border-top: 4px solid #ef4444;
+}
+
+.border-accent-pink {
+  border-top: 4px solid #ec4899;
+}
+
+/* Single metric row for SLA breaches */
+.metrics-single-row {
+  display: flex;
+}
+
+.metrics-single-row .metric-card {
+  width: 25%;
+  min-width: 240px;
+}
+
+.metrics-loading {
+  text-align: center;
+  padding: 48px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+/* Responsive Overrides */
+@media (max-width: 1200px) {
+  .shortcuts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .metrics-single-row .metric-card {
+    width: 50%;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .shortcuts-grid {
+    grid-template-columns: 1fr;
+  }
+  .metrics-grid {
+    grid-template-columns: 1fr;
+  }
+  .metrics-single-row .metric-card {
+    width: 100%;
+  }
+}

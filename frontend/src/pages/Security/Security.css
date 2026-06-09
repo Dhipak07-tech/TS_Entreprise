@@ -1,0 +1,61 @@
+.security-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.secops-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  gap: 20px;
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-danger-light { background-color: rgba(239, 68, 68, 0.1); }
+.bg-warning-light { background-color: rgba(245, 158, 11, 0.1); }
+.bg-success-light { background-color: rgba(34, 197, 94, 0.1); }
+
+.text-danger { color: var(--danger-500); }
+.text-warning { color: var(--warning-500); }
+.text-success { color: var(--success-500); }
+
+.stat-info h3 {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.stat-info .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.p-20 { padding: 20px; }
+.p-40 { padding: 40px; }
+.mb-12 { margin-bottom: 12px; }

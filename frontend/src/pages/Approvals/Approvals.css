@@ -1,0 +1,98 @@
+.approvals-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.approvals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.approval-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 12px);
+  transition: all 0.2s ease;
+}
+
+.approval-main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-grow: 1;
+  padding-right: 24px;
+}
+
+.approval-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.approval-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary-color, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.approval-meta-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.approval-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px 0;
+}
+
+.approval-subtext {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.remarks-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: 6px;
+  padding: 6px 12px;
+  max-width: 480px;
+}
+
+.remarks-icon {
+  color: var(--text-muted, #64748b);
+}
+
+.remarks-input {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  color: var(--text-color, #0f172a);
+  width: 100%;
+  outline: none;
+}
+
+.approval-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}

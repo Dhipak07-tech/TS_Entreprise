@@ -1,0 +1,180 @@
+.change-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.change-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  background: var(--card-bg, #ffffff);
+  border-radius: 16px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.change-main {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-grow: 1;
+  padding-right: 24px;
+}
+
+.change-type-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: rgba(59, 130, 246, 0.1);
+  color: var(--primary-color, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.change-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.change-title-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.change-title-row h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color, #0f172a);
+}
+
+.badge-row {
+  display: flex;
+  gap: 8px;
+}
+
+.change-desc {
+  margin: 0 0 12px 0;
+  font-size: 0.875rem;
+  color: var(--text-muted, #64748b);
+  line-height: 1.5;
+}
+
+.change-plans {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  background: rgba(0, 0, 0, 0.02);
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.8rem;
+  color: var(--text-color, #0f172a);
+  border-left: 3px solid var(--primary-color, #3b82f6);
+}
+
+.plan-item {
+  line-height: 1.4;
+}
+
+.change-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border-color, #e2e8f0);
+  padding-left: 24px;
+  font-size: 0.8rem;
+  color: var(--text-muted, #64748b);
+}
+
+.schedule-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.glassmorphism-change-modal {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 32px;
+  width: 90%;
+  max-width: 680px;
+  color: #f8fafc;
+}
+
+.glassmorphism-change-modal h2 {
+  color: #ffffff;
+}
+
+.glassmorphism-change-modal label {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
+.glassmorphism-change-modal input,
+.glassmorphism-change-modal select,
+.glassmorphism-change-modal textarea {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 10px 12px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.glassmorphism-change-modal input:focus,
+.glassmorphism-change-modal select:focus,
+.glassmorphism-change-modal textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+}
+
+.linked-tickets-selector {
+  max-height: 120px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 8px;
+}
+
+.ticket-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.ticket-checkbox-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ticket-checkbox-item input {
+  width: auto !important;
+}
+
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
