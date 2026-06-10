@@ -13,10 +13,10 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Builder
-public class RolePagePermissionKey implements Serializable {
+public class UserPagePermissionKey implements Serializable {
 
-    @Column(name = "ROLE_ID")
-    private Long roleId;
+    @Column(name = "USER_ID")
+    private Long userId;
 
     @Column(name = "PAGE_ID")
     private Integer pageId;

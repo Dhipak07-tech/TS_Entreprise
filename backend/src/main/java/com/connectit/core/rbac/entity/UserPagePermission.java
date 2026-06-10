@@ -1,24 +1,25 @@
 package com.connectit.core.rbac.entity;
 
+import com.connectit.core.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "ROLE_PAGE_PERMISSIONS")
+@Table(name = "USER_PAGE_PERMISSIONS")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RolePagePermission {
+public class UserPagePermission {
 
     @EmbeddedId
-    private RolePagePermissionKey id;
+    private UserPagePermissionKey id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("roleId")
-    @JoinColumn(name = "ROLE_ID")
-    private Role role;
+    @MapsId("userId")
+    @JoinColumn(name = "USER_ID")
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("pageId")

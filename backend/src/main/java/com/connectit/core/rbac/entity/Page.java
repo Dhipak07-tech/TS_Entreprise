@@ -2,6 +2,7 @@ package com.connectit.core.rbac.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "PAGES")
@@ -24,4 +25,9 @@ public class Page {
 
     @Column(name = "DESCRIPTION", length = 255)
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MODULE_ID")
+    @JsonIgnore
+    private Module module;
 }

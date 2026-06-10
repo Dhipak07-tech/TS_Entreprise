@@ -20,22 +20,37 @@ interface NotificationDTO {
   sentAt: string;
 }
 
-const navItems = [
-  { label: 'Dashboard', icon: LayoutDashboard, path: '/app/dashboard', pageId: 1001 },
-  { label: 'Tickets', icon: Ticket, path: '/app/tickets', pageId: 1002 },
-  { label: 'Messages', icon: MessageSquare, path: '/app/messages', pageId: null },
-  { label: 'Knowledge Base', icon: BookOpen, path: '/app/knowledge', pageId: 1008 },
-  { label: 'Change Control', icon: GitPullRequest, path: '/app/changes', pageId: 1006 },
-  { label: 'Service Catalog', icon: ShoppingBag, path: '/app/catalog', pageId: 1003 },
-  { label: 'Approvals', icon: CheckCircle2, path: '/app/approvals', pageId: 1002 },
-  { label: 'Assets & CMDB', icon: Laptop, path: '/app/assets', pageId: 1007 },
-  { label: 'SecOps & GRC', icon: ShieldAlert, path: '/app/security', pageId: 1004 },
-  { label: 'Billing & Plan', icon: CreditCard, path: '/app/billing', pageId: null },
-  { label: 'Users', icon: Users, path: '/app/users', pageId: 1009 },
-  { label: 'Roles & Access', icon: Shield, path: '/app/roles', pageId: 1010 },
-  { label: 'Audit Trail', icon: ScrollText, path: '/app/audit', pageId: 1010 },
-  { label: 'Settings', icon: Settings, path: '/app/settings', pageId: 1010 },
-];
+interface MenuConfigDTO {
+  id: number;
+  name: string;
+  path: string;
+  icon?: string;
+  parentId?: number;
+  page?: { pageId: number; name: string };
+  sortOrder: number;
+  children: MenuConfigDTO[];
+}
+
+const iconMap: Record<string, React.ComponentType<any>> = {
+  LayoutDashboard,
+  Ticket,
+  MessageSquare,
+  BookOpen,
+  GitBranch: GitPullRequest,
+  GitPullRequest,
+  ShoppingBag,
+  CheckCircle2,
+  Laptop,
+  ShieldAlert,
+  CreditCard,
+  Users,
+  Shield,
+  ScrollText,
+  Settings,
+  AlertTriangle: ShieldAlert,
+  FileSearch2: ScrollText,
+  HardDrive: Laptop
+};
 
 export default function AppLayout() {
   const [collapsed, setCollapsed] = useState(false);
@@ -44,7 +59,7 @@ export default function AppLayout() {
   const [showNotifications, setShowNotifications] = useState(false);
   const { user, logout } = useAuthStore();
   const navigate = useNavigate();
-  const [permittedPageIds, setPermittedPageIds] = useState<Set<number> | null>(null);
+  const [menuItems, setMenuItems] = useState<MenuConfigDTO[]>([]);
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('ticklora_theme') as 'light' | 'dark') || 'light';
@@ -77,22 +92,35 @@ export default function AppLayout() {
     };
     loadNotifications();
 
-    // Fetch dynamic menu permissions
-    const fetchMenu = async () => {
+    // Fetch dynamic menu configurations
+    const fetchMenuConfigs = async () => {
       try {
-        const pages = await rbacService.getMenu();
-        const ids = new Set<number>(pages.map((p: any) => p.pageId));
-        setPermittedPageIds(ids);
-        (window as any).permittedPageIds = ids;
+        const response = await api.get('/rbac/menu-configurations');
+        if (response.data.success) {
+          // Sort items by sortOrder
+          const sorted = response.data.data.sort((a: any, b: any) => a.sortOrder - b.sortOrder);
+          // Recursively sort children
+          sorted.forEach((item: any) => {
+            if (item.children) {
+              item.children.sort((a: any, b: any) => a.sortOrder - b.sortOrder);
+            }
+          });
+          setMenuItems(sorted);
+        }
       } catch (err) {
-        console.error('Failed to fetch menu:', err);
-        // Fallback
-        const fallbackIds = new Set<number>([1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010]);
-        setPermittedPageIds(fallbackIds);
-        (window as any).permittedPageIds = fallbackIds;
+        console.error('Failed to fetch dynamic menu configurations:', err);
+        // Fallback to local hardcoded configurations if API fails
+        const fallbackMenus: MenuConfigDTO[] = [
+          { id: 1, name: 'Dashboard', path: '/app/dashboard', icon: 'LayoutDashboard', sortOrder: 1, children: [] },
+          { id: 2, name: 'Tickets', path: '/app/tickets', icon: 'Ticket', sortOrder: 2, children: [] },
+          { id: 3, name: 'Knowledge Base', path: '/app/knowledge', icon: 'BookOpen', sortOrder: 7, children: [] },
+          { id: 4, name: 'Users', path: '/app/users', icon: 'Users', sortOrder: 8, children: [] },
+          { id: 5, name: 'Settings', path: '/app/settings', icon: 'Settings', sortOrder: 9, children: [] },
+        ];
+        setMenuItems(fallbackMenus);
       }
     };
-    fetchMenu();
+    fetchMenuConfigs();
 
     // Subscribe to SSE
     const token = localStorage.getItem('ticklora_token');
@@ -176,20 +204,43 @@ export default function AppLayout() {
         <nav className="sidebar-nav">
           <div className="nav-section">
             {!collapsed && <div className="nav-section-title">Main Menu</div>}
-            {navItems
-              .filter(item => item.pageId === null || (permittedPageIds && permittedPageIds.has(item.pageId)))
-              .map((item) => (
-                <NavLink
-                  key={item.path}
-                  to={item.path}
-                  className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-                  onClick={() => setMobileOpen(false)}
-                  title={item.label}
-                >
-                  <item.icon size={20} />
-                  {!collapsed && <span>{item.label}</span>}
-                </NavLink>
-              ))}
+            {menuItems.map((item) => {
+              const IconComponent = iconMap[item.icon || ''] || Settings;
+              return (
+                <div key={item.id} className="nav-item-group" style={{ marginBottom: '0.5rem' }}>
+                  <NavLink
+                    to={item.path}
+                    className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                    onClick={() => setMobileOpen(false)}
+                    title={item.name}
+                  >
+                    <IconComponent size={20} />
+                    {!collapsed && <span>{item.name}</span>}
+                  </NavLink>
+                  {/* Nested/Child configurations */}
+                  {!collapsed && item.children && item.children.length > 0 && (
+                    <div className="nav-item-children" style={{ paddingLeft: '1.25rem', marginTop: '0.25rem', display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                      {item.children.map((child) => {
+                        const ChildIcon = iconMap[child.icon || ''] || Settings;
+                        return (
+                          <NavLink
+                            key={child.id}
+                            to={child.path}
+                            className={({ isActive }) => `nav-item child-nav-item ${isActive ? 'active' : ''}`}
+                            onClick={() => setMobileOpen(false)}
+                            title={child.name}
+                            style={{ fontSize: '0.825rem', padding: '0.35rem 0.75rem', opacity: 0.85 }}
+                          >
+                            <ChildIcon size={15} />
+                            <span>{child.name}</span>
+                          </NavLink>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </nav>
 

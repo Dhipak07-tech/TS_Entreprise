@@ -52,6 +52,30 @@ public class RbacController {
         return ResponseEntity.ok(ApiResponse.success("Page permission matrix updated successfully", null));
     }
 
+    @Autowired
+    private com.connectit.core.rbac.service.PermissionService permissionService;
+
+    @GetMapping("/menu-configurations")
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<ApiResponse<List<com.connectit.core.rbac.entity.MenuConfiguration>>> getPermittedMenuConfigurations() {
+        org.springframework.security.core.Authentication auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        com.connectit.config.security.services.UserDetailsImpl userDetails = (com.connectit.config.security.services.UserDetailsImpl) auth.getPrincipal();
+        Long companyId = com.connectit.config.tenant.TenantContext.getCurrentTenant();
+        if (companyId == null) {
+            companyId = 1L;
+        }
+        return ResponseEntity.ok(ApiResponse.success(permissionService.getPermittedMenu(userDetails.getId(), companyId)));
+    }
+
+    @PutMapping("/user/{userId}/permissions")
+    @PreAuthorize("hasAuthority('MANAGE_SYSTEM')")
+    public ResponseEntity<ApiResponse<Void>> updateUserPermissions(
+            @PathVariable Long userId,
+            @RequestBody List<com.connectit.core.rbac.dto.UserPagePermissionDTO> request) {
+        rbacService.updateUserPermissions(userId, request);
+        return ResponseEntity.ok(ApiResponse.success("User custom permissions updated successfully", null));
+    }
+
     @PutMapping("/roles/{id}/permissions")
     @PreAuthorize("hasAuthority('MANAGE_SYSTEM')")
     public ResponseEntity<ApiResponse<RoleDTO>> updateRolePermissions(

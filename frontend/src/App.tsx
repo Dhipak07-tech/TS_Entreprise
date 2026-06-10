@@ -20,6 +20,8 @@ import MessagesPage from './pages/Messages/MessagesPage';
 import SecurityPage from './pages/Security/SecurityPage';
 import BillingPage from './pages/Billing/BillingPage';
 
+import { PageGuard } from './components/PageGuard';
+
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuthStore();
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" replace />;
@@ -53,21 +55,21 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="tickets" element={<TicketsPage />} />
-          <Route path="tickets/:id" element={<TicketDetailPage />} />
+          <Route path="dashboard" element={<PageGuard pageId={1001}><DashboardPage /></PageGuard>} />
+          <Route path="tickets" element={<PageGuard pageId={1002}><TicketsPage /></PageGuard>} />
+          <Route path="tickets/:id" element={<PageGuard pageId={1002}><TicketDetailPage /></PageGuard>} />
           <Route path="messages" element={<MessagesPage />} />
-          <Route path="knowledge" element={<KnowledgeBasePage />} />
-          <Route path="changes" element={<ChangeManagementPage />} />
-          <Route path="catalog" element={<ServiceCatalogPage />} />
-          <Route path="approvals" element={<ApprovalsPage />} />
-          <Route path="assets" element={<AssetsPage />} />
-          <Route path="security" element={<SecurityPage />} />
+          <Route path="knowledge" element={<PageGuard pageId={1008}><KnowledgeBasePage /></PageGuard>} />
+          <Route path="changes" element={<PageGuard pageId={1006}><ChangeManagementPage /></PageGuard>} />
+          <Route path="catalog" element={<PageGuard pageId={1003}><ServiceCatalogPage /></PageGuard>} />
+          <Route path="approvals" element={<PageGuard pageId={1002}><ApprovalsPage /></PageGuard>} />
+          <Route path="assets" element={<PageGuard pageId={1007}><AssetsPage /></PageGuard>} />
+          <Route path="security" element={<PageGuard pageId={1004}><SecurityPage /></PageGuard>} />
           <Route path="billing" element={<BillingPage />} />
-          <Route path="users" element={<UsersPage />} />
-          <Route path="roles" element={<RolesPage />} />
-          <Route path="audit" element={<AuditPage />} />
-          <Route path="settings" element={<SettingsPage />} />
+          <Route path="users" element={<PageGuard pageId={1009}><UsersPage /></PageGuard>} />
+          <Route path="roles" element={<PageGuard pageId={1010}><RolesPage /></PageGuard>} />
+          <Route path="audit" element={<PageGuard pageId={1010}><AuditPage /></PageGuard>} />
+          <Route path="settings" element={<PageGuard pageId={1010}><SettingsPage /></PageGuard>} />
           <Route index element={<Navigate to="dashboard" replace />} />
         </Route>
 

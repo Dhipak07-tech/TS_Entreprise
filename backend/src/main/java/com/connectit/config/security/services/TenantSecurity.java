@@ -17,7 +17,7 @@ import java.util.List;
 public class TenantSecurity {
 
     @Autowired
-    private RolePagePermissionRepository rolePagePermissionRepository;
+    private com.connectit.core.rbac.service.PermissionService permissionService;
 
     @Autowired
     private UserRepository userRepository;
@@ -39,57 +39,10 @@ public class TenantSecurity {
         UserDetailsImpl userDetails = (UserDetailsImpl) principal;
         Long userId = userDetails.getId();
 
-        // 1. Fetch user to check roles
-        User user = userRepository.findById(userId).orElse(null);
-        if (user == null) {
-            return false;
-        }
+        boolean permitted = permissionService.hasPermission(userId, pageId, action);
 
-        // 2. Check each role mapped page permissions
-        boolean permitted = false;
-        for (var role : user.getRoles()) {
-            List<RolePagePermission> permissions = rolePagePermissionRepository.findByRoleId(role.getId());
-            for (RolePagePermission perm : permissions) {
-                if (perm.getPage().getPageId() == pageId) {
-                    switch (action.toUpperCase()) {
-                        case "VIEW":
-                            if (perm.getCanView()) permitted = true;
-                            break;
-                        case "CREATE":
-                            if (perm.getCanCreate()) permitted = true;
-                            break;
-                        case "UPDATE":
-                            if (perm.getCanUpdate()) permitted = true;
-                            break;
-                        case "DELETE":
-                            if (perm.getCanDelete()) permitted = true;
-                            break;
-                        case "APPROVE":
-                            if (perm.getCanApprove()) permitted = true;
-                            break;
-                        case "REJECT":
-                            if (perm.getCanReject()) permitted = true;
-                            break;
-                        case "ASSIGN":
-                            if (perm.getCanAssign()) permitted = true;
-                            break;
-                        case "IMPORT":
-                            if (perm.getCanImport()) permitted = true;
-                            break;
-                        case "EXPORT":
-                            if (perm.getCanExport()) permitted = true;
-                            break;
-                        case "PRINT":
-                            if (perm.getCanPrint()) permitted = true;
-                            break;
-                        case "REPORT":
-                        case "REPORT_ACCESS":
-                            if (perm.getCanReportAccess()) permitted = true;
-                            break;
-                    }
-                }
-            }
-        }
+        // Fetch user for logging
+        User user = userRepository.findById(userId).orElse(null);
 
         // Log the check to the Audit Service as requested
         try {
